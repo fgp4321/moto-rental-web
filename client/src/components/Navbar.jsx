@@ -1,26 +1,49 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 
 const Navbar = () => {
+  const [scrolled, setScrolled] = useState(false);
+
+  // Efecto para detectar el scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      // Si el scroll es mayor que 10px, cambiamos el estado
+      setScrolled(window.scrollY > 10);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    // Limpiamos el event listener cuando el componente se desmonta
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   return (
-    <nav className="bg-slate-900/80 backdrop-blur-sm text-white p-4 fixed top-0 left-0 w-full z-50">
-      <div className="container mx-auto flex justify-between items-center">
+    <motion.nav 
+      className={`fixed top-0 left-0 w-full z-50 p-4 transition-all duration-300 ${scrolled ? 'bg-black/80 backdrop-blur-md shadow-lg' : 'bg-transparent'}`}
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <div className="container mx-auto flex justify-between items-center text-white">
         {/* --- Logo --- */}
-        <a href="/" className="text-2xl font-bold text-cyan-400">
-          Moto<span className="text-white">Lease</span>
+        <a href="/" className="text-xl font-semibold tracking-wider">
+          Rent a motorcycle
         </a>
 
         {/* --- Links de Navegación (Escritorio) --- */}
-        <div className="hidden md:flex space-x-6">
-          <a href="/motos" className="hover:text-cyan-400 transition-colors duration-300">Motos</a>
-          <a href="/#how-it-works" className="hover:text-cyan-400 transition-colors duration-300">Cómo Funciona</a>
+        <div className="hidden md:flex space-x-8">
+          <a href="/motos" className="hover:opacity-75 transition-opacity duration-300">Motos</a>
+          <a href="/#featured-bikes" className="hover:opacity-75 transition-opacity duration-300">Destacadas</a>
         </div>
 
         {/* --- Botones de Acción (Escritorio) --- */}
         <div className="hidden md:flex items-center space-x-4">
-          <a href="/login" className="py-2 px-4 rounded-md hover:bg-slate-800 transition-colors duration-300">
+          <a href="/login" className="hover:opacity-75 transition-opacity duration-300">
             Iniciar Sesión
           </a>
-          <a href="/register" className="bg-cyan-500 py-2 px-4 rounded-md hover:bg-cyan-600 transition-colors duration-300">
+          <a href="/register" className="border border-white py-2 px-5 rounded-md hover:bg-white hover:text-black transition-colors duration-300">
             Registrarse
           </a>
         </div>
@@ -34,7 +57,7 @@ const Navbar = () => {
           </button>
         </div>
       </div>
-    </nav>
+    </motion.nav>
   );
 };
 
