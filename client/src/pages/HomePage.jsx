@@ -8,7 +8,7 @@ import FeaturedBikes from '../components/FeaturedBikes';
 import Footer from '../components/Footer';
 
 const HomePage = () => {
-  const [motos, setMotos] = useState([]);
+  const [featuredBikes, setFeaturedBikes] = useState([]);
 
   // --- Efecto para el scroll suave ---
   useEffect(() => {
@@ -26,17 +26,19 @@ const HomePage = () => {
     }
   }, []); // El array vacío asegura que se ejecuta solo una vez
 
-  // --- Efecto para pedir los datos de las motos ---
+  // --- useEffect para pedir los datos de las motos DESTACADAS ---
   useEffect(() => {
-    const fetchMotos = async () => {
+    const fetchFeaturedBikes = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/api/motos');
-        setMotos(response.data.slice(0, 3));
+        // --- ¡CAMBIO CLAVE! ---
+        // Apuntamos al nuevo endpoint y ya no necesitamos .slice()
+        const response = await axios.get('http://localhost:3001/api/motos/featured');
+        setFeaturedBikes(response.data);
       } catch (error) {
         console.error("Error al obtener las motos destacadas:", error);
       }
     };
-    fetchMotos();
+    fetchFeaturedBikes();
   }, []);
 
   return (
@@ -44,7 +46,8 @@ const HomePage = () => {
       <Navbar />
       <main>
         <Hero />
-        <FeaturedBikes motos={motos} />
+        {/* Pasamos las motos destacadas al componente */}
+        <FeaturedBikes motos={featuredBikes} />
       </main>
       <Footer />
     </div>

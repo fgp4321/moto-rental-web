@@ -77,9 +77,22 @@ const getUniqueCategories = async (req, res) => {
 };
 
 
-// Al final del archivo, actualiza el export
+// --- OBTENER MOTOS DESTACADAS ---
+const getFeaturedBikes = async (req, res) => {
+  try {
+    // Selecciona solo las motos marcadas como destacadas
+    const result = await db.query('SELECT * FROM motos WHERE is_featured = true ORDER BY created_at DESC');
+    res.json(result.rows);
+  } catch (error) {
+    console.error('Error al obtener las motos destacadas:', error);
+    res.status(500).json({ msg: 'Error del servidor' });
+  }
+};
+
+// Al final del archivo, actualiza el export para incluir la nueva función
 module.exports = {
   getMotos,
   getUniqueBrands,
   getUniqueCategories,
+  getFeaturedBikes, // <-- Añadir esta
 };
