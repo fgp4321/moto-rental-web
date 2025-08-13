@@ -1,0 +1,15 @@
+# Dependencias de Node
+/client/node_modules
+/server/node_modules
+
+# Archivos de entorno (contienen secretos)
+/server/.env
+/client/.env
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Archivos de build de Vite
+/client/dist
