@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Lenis from '@studio-freight/lenis'; // <-- 1. Importa Lenis
+import Lenis from '@studio-freight/lenis';
 
 import Navbar from '../components/Navbar';
 import Hero from '../components/Hero';
@@ -12,19 +12,15 @@ const HomePage = () => {
 
   // --- Efecto para el scroll suave ---
   useEffect(() => {
-    // 2. Inicializa Lenis
     const lenis = new Lenis();
 
-    // 3. Crea una función para el bucle de animación
     function raf(time) {
       lenis.raf(time);
       requestAnimationFrame(raf);
     }
 
-    // 4. Inicia el bucle
     requestAnimationFrame(raf);
 
-    // Opcional: Limpia al desmontar el componente
     return () => {
       lenis.destroy();
     }
@@ -44,7 +40,6 @@ const HomePage = () => {
   }, []);
 
   return (
-    // No hay cambios en el JSX
     <div className="bg-black">
       <Navbar />
       <main>
