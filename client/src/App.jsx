@@ -1,14 +1,18 @@
-// client/src/App.jsx
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import HomePage from './pages/HomePage'; // <-- Importamos la nueva página
+import RegisterPage from './pages/RegisterPage';
+import LoginPage from './pages/LoginPage';
 
 function App() {
   return (
-    // Añadimos clases para un fondo oscuro, texto blanco y un poco de padding
-    <div className="bg-slate-900 min-h-screen flex items-center justify-center">
-      <h1 className="text-white text-4xl font-bold underline text-cyan-400">
-        ¡Hola, Tailwind CSS v4! 🏍️
-      </h1>
-    </div>
-  )
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage />} /> {/* <-- Ruta principal */}
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/login" element={<LoginPage />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
