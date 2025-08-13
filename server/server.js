@@ -16,8 +16,9 @@ app.use(express.json());
 // Le decimos a nuestra app que use las rutas de usuario
 // para cualquier petición que empiece con "/api/users"
 app.use('/api/users', require('./src/routes/userRoutes'));
-// Futuras rutas irían aquí:
-// app.use('/api/motos', require('./src/routes/motoRoutes'));
+
+app.use('/api/motos', require('./src/routes/motoRoutes'));
+
 
 
 // --- INICIAR SERVIDOR ---

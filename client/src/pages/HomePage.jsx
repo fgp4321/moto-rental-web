@@ -1,41 +1,40 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react'; // <-- 1. Importa useState y useEffect
+import axios from 'axios'; // <-- 2. Importa axios
 import Navbar from '../components/Navbar';
 import Hero from '../components/Hero';
 import MotoCard from '../components/MotoCard';
-
-// Datos de ejemplo para las motos
-const featuredMotos = [
-  { id: 1, name: 'Iron 883', brand: 'Harley-Davidson', imageUrl: 'https://images.unsplash.com/photo-1621115163395-5867b244797a?q=80&w=1932' },
-  { id: 2, name: 'Scout Bobber', brand: 'Indian', imageUrl: 'https://images.unsplash.com/photo-1629892695279-3669d455f524?q=80&w=2070' },
-  { id: 3, name: 'Bonneville Bobber', brand: 'Triumph', imageUrl: 'https://images.unsplash.com/photo-1625039010359-2193f0e0f399?q=80&w=1974' },
-];
+import FeaturedBikes from '../components/FeaturedBikes'; // <-- Nuevo componente
+import Footer from '../components/Footer'; // <-- Importamos el Footer
 
 const HomePage = () => {
+  // 3. Crea un estado para guardar las motos
+  const [motos, setMotos] = useState([]);
+
+  // 4. Usa useEffect para pedir los datos a la API cuando el componente se monta
+  useEffect(() => {
+    const fetchMotos = async () => {
+      try {
+        const response = await axios.get('http://localhost:3001/api/motos');
+        // Filtramos para mostrar solo las 3 primeras como destacadas
+        setMotos(response.data.slice(0, 3)); 
+      } catch (error) {
+        console.error("Error al obtener las motos destacadas:", error);
+      }
+    };
+
+    fetchMotos();
+  }, []); // El array vacío asegura que se ejecuta solo una vez
+
   return (
     <div className="bg-slate-900">
       <Navbar />
-      <Hero />
-
-      {/* --- Sección de Motos Destacadas --- */}
-      <section id="featured-bikes" className="py-20">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-white mb-12">
-            Nuestras Joyas
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {featuredMotos.map(moto => (
-              <MotoCard
-                key={moto.id}
-                name={moto.name}
-                brand={moto.brand}
-                imageUrl={moto.imageUrl}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Aquí irían los otros componentes como HowItWorks y Footer */}
+      <main>
+        <Hero />
+        {/* Pasamos las motos al componente FeaturedBikes */}
+        <FeaturedBikes motos={motos} />
+        {/* Aquí podríamos añadir la sección "HowItWorks" en el futuro */}
+      </main>
+      <Footer />
     </div>
   );
 };
